@@ -1,25 +1,26 @@
 # Funcionalidades necessárias
 
 Essas são as funcionalidades que estão sendo utilizadas atualmente no sistema SGTE Manager
+
 - ✅ auth 
+
 - patente == position
     - ✅ routes resource
-    - model [shortName, name, weight]
+    - ✅ model [shortName, name, priority]
+    - ✅ migration
     - controller
     - view
+
 - seção == section
     - ✅ routes resource
-    - model [shortName, name]
+    - ✅ model [shortName, name]
+    - ✅ migration
     - controller
     - view
-- situation == situation
-    - ✅ routes resource
-    - model [military_id, start_date, days, end_date, situation_id]
-    - controller
-    - view
+
 - militares == military
     - ✅ routes resource
-    - model [
+    - ✅ model [
         position_id
         war_number
         war_name
@@ -34,7 +35,7 @@ Essas são as funcionalidades que estão sendo utilizadas atualmente no sistema 
         email
         start_date
         cpf
-        date_birth
+        birth_date
         marital_status
         blood_type
         consumes_alcohol
@@ -43,33 +44,44 @@ Essas são as funcionalidades que estão sendo utilizadas atualmente no sistema 
         driver_license_type
         behavior
     ]
+    - ✅ migration
     - controller
     - view
-- mapa da força == map
+
+- situation == situation
     - ✅ routes resource
-    - model [military_id, start_date, days, end_date, situation_id]
+    - ✅ model [military_id, start_date, days, end_date, description]
+    - ✅ migration
     - controller
     - view
+
 - fatd == transgression
     - ✅ routes resource
-    - model [actuator_id, acted_id, description, date]
+    - ✅ model [actuator_id, acted_id, description, date, punishiment_description, punishment_type, days]
+    - ✅ migration
     - controller
     - view
+
 - caveirinha == comment
     - ✅ routes resource
-    - model [actuator_identifier, acted_id, date, description, type, count_punishments, count_comments]
+    - ✅ model [actuator_identifier, acted_id, date, description, type, count_punishments, count_comments]
+    - migration
     - controller
     - view
+
 - declarações == declaration
     - ✅ routes specific
     - model [dont need]
     - controller
     - view
+
 - taf simulator
     - ✅ routes specific
     - model [dont need]
+    - seed default values
     - controller
     - view
+
 - geração de nada deve por data de praça / militar
     - ✅ routes specific
     - model [dont need]

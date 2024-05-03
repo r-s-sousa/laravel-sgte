@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MapController;
 use App\Http\Controllers\TafController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
@@ -29,9 +28,8 @@ Route::middleware('auth')->group(function () {
     /* resources */
     Route::resource('position', PositionController::class);
     Route::resource('section', SectionController::class);
-    Route::resource('situation', SituationController::class);
     Route::resource('military', MilitaryController::class);
-    Route::resource('map', MapController::class);
+    Route::resource('situation', SituationController::class);
     Route::resource('transgression', TransgressionController::class);
     Route::resource('comment', CommentController::class);
 
