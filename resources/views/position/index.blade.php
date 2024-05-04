@@ -13,7 +13,7 @@
                     <x-table.th-actions>{{ __('Ações') }}</x-table.th>
                 </x-table.tr>
             </x-table.thead>
-            <x-table.tbody>
+            <x-table.tbody :lines="count($positions)">
                 @foreach ($positions as $position)
                     <x-table.tr>
                         <x-table.td>{{ $position->shortName }}</x-table.td>
