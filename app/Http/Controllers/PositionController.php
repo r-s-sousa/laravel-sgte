@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\PositionRequest;
 use App\Exceptions\NotImplementedMethod;
+use Illuminate\Support\Facades\Redirect;
 
 class PositionController extends Controller
 {
@@ -27,7 +28,7 @@ class PositionController extends Controller
         $search = $validatedData['search'];
 
         if (!$search) {
-            return to_route('position.index');
+            return Redirect::route('position.index');
         }
 
         $positions = Position::query()
@@ -55,7 +56,7 @@ class PositionController extends Controller
         $incomingPosition = $request->validated();
         Position::create($incomingPosition);
 
-        return to_route('position.index')
+        return Redirect::route('position.index')
                 ->with('success', 'Posição criada com sucesso!');
     }
 
@@ -83,8 +84,7 @@ class PositionController extends Controller
         $incomingPosition = $request->validated();
         $position->update($incomingPosition);
 
-        return to_route('position.index')
-                ->with('success', 'Posição atualizada com sucesso!');
+        return Redirect::route('position.edit', $position)->with('status', 'position-updated');
     }
 
     /**
@@ -98,6 +98,6 @@ class PositionController extends Controller
 
         $position->delete();
 
-        return to_route('position.index')->with('success_message', 'Posição excluída com sucesso!');
+        return Redirect::route('position.index')->with('success_message', 'Posição excluída com sucesso!');
     }
 }
