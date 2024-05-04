@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotImplementedMethod;
+use App\Http\Requests\PositionRequest;
 use App\Models\Position;
-use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
@@ -12,7 +13,8 @@ class PositionController extends Controller
      */
     public function index()
     {
-        //
+        $positions = Position::paginate();
+        return view('position.index', ['positions' => $positions]);
     }
 
     /**
@@ -20,15 +22,19 @@ class PositionController extends Controller
      */
     public function create()
     {
-        //
+        return view('position.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PositionRequest $request)
     {
-        //
+        $incomingPosition = $request->validated();
+        Position::create($incomingPosition);
+
+        return to_route('position.index')
+                ->with('success', 'Posição criada com sucesso!');
     }
 
     /**
@@ -36,7 +42,7 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        //
+        throw new NotImplementedMethod('PositionController@show');
     }
 
     /**
@@ -44,15 +50,19 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        return view('position.edit', ['position' => $position]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Position $position)
+    public function update(PositionRequest $request, Position $position)
     {
-        //
+        $incomingPosition = $request->validated();
+        $position->update($incomingPosition);
+
+        return to_route('position.index')
+                ->with('success', 'Posição atualizada com sucesso!');
     }
 
     /**
@@ -60,6 +70,8 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        // todo: catch exception
+        $position->delete();
+        return to_route('position.index')->with('success', 'Posição excluída com sucesso!');
     }
 }
