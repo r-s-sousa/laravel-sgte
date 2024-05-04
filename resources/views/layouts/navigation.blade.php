@@ -253,8 +253,6 @@
                             {{ __('Criar') }}
                         </x-dropdown-link>
 
-                        <hr>
-
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
