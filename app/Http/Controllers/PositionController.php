@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Position;
+use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\PositionRequest;
 use App\Exceptions\NotImplementedMethod;
@@ -89,10 +90,14 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+    public function destroy(Position $position, Request $request)
     {
-        // todo: catch exception
+        $request->validateWithBag('onValidation', [
+            'password' => ['required', 'current_password'],
+        ]);
+
         $position->delete();
-        return to_route('position.index')->with('success', 'Posição excluída com sucesso!');
+
+        return to_route('position.index')->with('success_message', 'Posição excluída com sucesso!');
     }
 }
