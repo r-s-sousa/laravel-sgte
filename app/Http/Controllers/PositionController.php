@@ -2,19 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\NotImplementedMethod;
-use App\Http\Requests\PositionRequest;
 use App\Models\Position;
+use App\Http\Requests\SearchRequest;
+use App\Http\Requests\PositionRequest;
+use App\Exceptions\NotImplementedMethod;
 
 class PositionController extends Controller
 {
+    private const int ITEMS_PER_PAGE = 8;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $positions = Position::paginate();
+        $positions = Position::paginate(self::ITEMS_PER_PAGE);
         return view('position.index', ['positions' => $positions]);
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $validatedData = $request->validated();
+        $search = $validatedData['search'];
+
+        if (!$search) {
+            return to_route('position.index');
+        }
+
+        $positions = Position::query()
+            ->where('name', 'ilike', '%' . $search . '%')
+            ->orWhere('shortName', 'ilike', '%' . $search . '%')
+            ->paginate(self::ITEMS_PER_PAGE)
+            ->appends(['search' => $search]);
+
+        return view('position.index', ['positions' => $positions, 'search' => $search]);
     }
 
     /**
