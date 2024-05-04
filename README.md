@@ -88,7 +88,11 @@ Essas são as funcionalidades que estão sendo utilizadas atualmente no sistema 
     - controller
     - view
 
-- mapa da força
+- geração de crachás pelo relatório de designação
+    - ✅ routes specific
+    - model [dont need]
+    - controller
+    - view
 
 ## Ajustes nas funcionalidades
 - ordenação na tela de militares deve ser pela graduação depois número
