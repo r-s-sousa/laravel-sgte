@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Position;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,27 +16,28 @@ class PositionRequest extends FormRequest
                 'min:3',
                 'max:10',
                 'string',
+                'unique' => Rule::unique(Position::class)
             ],
             'name' => [
                 'required',
                 'min:3',
                 'max:50',
                 'string',
+                'unique' => Rule::unique(Position::class)
             ],
             'priority' => [
                 'required',
                 'integer',
                 'min:1',
                 'max:999',
+                'unique' => Rule::unique(Position::class)
             ]
         ];
 
-        $positionId = $this->route('position')->id ?? null;
-
-        if ($positionId !== null) {
-            $rules['shortName'][] = Rule::unique('positions', 'shortName')->ignore($positionId);
-            $rules['name'][] = Rule::unique('positions', 'name')->ignore($positionId);
-            $rules['priority'][] = Rule::unique('positions', 'priority')->ignore($positionId);
+        if ($this->isMethod('patch')) {
+            $rules['shortName']['unique'] = Rule::unique(Position::class)->ignore($this->route('position'));
+            $rules['name']['unique'] = Rule::unique(Position::class)->ignore($this->route('position'));
+            $rules['priority']['unique'] = Rule::unique(Position::class)->ignore($this->route('position'));
         }
 
         return $rules;
