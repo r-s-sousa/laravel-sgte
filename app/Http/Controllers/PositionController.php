@@ -63,24 +63,29 @@ class PositionController extends Controller
         throw new NotImplementedMethod('PositionController@show');
     }
 
-    public function edit(Position $position): View
+    public function edit(Request $request): View
     {
+        $position = Position::find($request->route('position'));
+
         return view('position.edit', ['position' => $position]);
     }
 
-    public function update(PositionRequest $request, Position $position): RedirectResponse
+    public function update(PositionRequest $request): RedirectResponse
     {
-        $oldName = $position->name;
         $incomingPosition = $request->validated();
+        $position = Position::find($request->route('position'));
         $position->update($incomingPosition);
 
         return Redirect::route('position.index')
-            ->with('success_message', "Posição: '{$oldName}' atualizada!");
+            ->with('success_message', 'Posição: atualizada!');
     }
 
-    public function destroy(Position $position, Request $request): RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
+        $position = Position::find($request->route('position'));
+
         $positionName = $position->name;
+
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
