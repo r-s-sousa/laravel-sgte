@@ -3,26 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Position;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\PositionRequest;
 use App\Exceptions\NotImplementedMethod;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Throwable;
 
 class PositionController extends Controller
 {
     private const int ITEMS_PER_PAGE = 8;
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        $positions = Position::paginate(self::ITEMS_PER_PAGE);
+        $positions = Position::query()
+            ->orderBy('priority', 'desc')
+            ->paginate(self::ITEMS_PER_PAGE);
+
         return view('position.index', ['positions' => $positions]);
     }
 
-    public function search(SearchRequest $request)
+    public function search(SearchRequest $request): View|RedirectResponse
     {
         $validatedData = $request->validated();
         $search = $validatedData['search'];
@@ -34,70 +37,57 @@ class PositionController extends Controller
         $positions = Position::query()
             ->where('name', 'ilike', '%' . $search . '%')
             ->orWhere('shortName', 'ilike', '%' . $search . '%')
+            ->orderBy('priority', 'desc')
             ->paginate(self::ITEMS_PER_PAGE)
             ->appends(['search' => $search]);
 
         return view('position.index', ['positions' => $positions, 'search' => $search]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
         return view('position.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(PositionRequest $request)
+    public function store(PositionRequest $request): RedirectResponse
     {
         $incomingPosition = $request->validated();
-        Position::create($incomingPosition);
+        $position = Position::create($incomingPosition);
 
         return Redirect::route('position.index')
-                ->with('success', 'Posição criada com sucesso!');
+                ->with('success_message', "Posição: '{$position->name}' criada com sucesso!");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Position $position)
+    public function show(Position $position): Throwable
     {
         throw new NotImplementedMethod('PositionController@show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Position $position)
+    public function edit(Position $position): View
     {
         return view('position.edit', ['position' => $position]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(PositionRequest $request, Position $position)
+    public function update(PositionRequest $request, Position $position): RedirectResponse
     {
+        $oldName = $position->name;
         $incomingPosition = $request->validated();
         $position->update($incomingPosition);
 
-        return Redirect::route('position.edit', $position)->with('status', 'position-updated');
+        return Redirect::route('position.index')
+            ->with('success_message', "Posição: '{$oldName}' atualizada!");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Position $position, Request $request)
+    public function destroy(Position $position, Request $request): RedirectResponse
     {
+        $positionName = $position->name;
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
         $position->delete();
 
-        return Redirect::route('position.index')->with('success_message', 'Posição excluída com sucesso!');
+        return Redirect::route('position.index')
+            ->with('success_message', "Posição: '{$positionName}' excluída!");
     }
 }
