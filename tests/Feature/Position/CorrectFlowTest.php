@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class PositionControllerTest extends TestCase
+class CorrectFlowTest extends TestCase
 {
     use RefreshDatabase;
 
