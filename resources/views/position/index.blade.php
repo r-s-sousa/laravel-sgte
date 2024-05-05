@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Listagem | Graduações</x-slot>
     <x-body-layout>
 
         @include('components.table.search', ['routeName' => 'position.search', 'search' => $search ?? ''])
