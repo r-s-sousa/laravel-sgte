@@ -11,11 +11,6 @@ class PositionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function saveFileToDebugView($response)
-    {
-        file_put_contents('dump.html', $response->getContent());
-    }
-
     public function test_list_screen_can_be_rendered()
     {
         $user = User::factory()->create();
@@ -65,8 +60,6 @@ class PositionControllerTest extends TestCase
         $position = Position::factory()->create();
         $uri = route('position.edit', $position->id);
         $response = $this->actingAs($user)->get($uri);
-
-        $this->saveFileToDebugView($response);
 
         $position->refresh();
 
