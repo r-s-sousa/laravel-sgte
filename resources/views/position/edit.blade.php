@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="title">Criar | Graduação</x-slot>
+    <x-slot name="title">Editar | Graduação</x-slot>
     <x-body-layout>
         <section class="sm:py-4 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
             <header>
