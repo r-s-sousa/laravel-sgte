@@ -40,7 +40,10 @@
                             </div>
 
                             <div class="flex items-center gap-4">
+                                <x-secondary-link-button
+                                    href="{{ route('position.index') }}">{{ __('Listar') }}</x-secondary-link-button>
                                 <x-primary-button>{{ __('Salvar') }}</x-primary-button>
+
                                 @if (session('status') === 'position-updated')
                                     <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
                                         class="text-md text-green-600 dark:text-green-400">
@@ -49,12 +52,6 @@
                             </div>
                         </form>
                     </section>
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('position.partials.delete-position-form')
                 </div>
             </div>
         </div>
