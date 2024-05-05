@@ -19,6 +19,8 @@
 
             <x-text-input id="password_{{ $position->id }}" name="password" type="password" class="mt-1 block w-3/4"
                 placeholder="{{ __('Password') }}" required />
+
+            <x-input-error :messages="$errors->onValidation->get('password')" class="mt-2" />
         </div>
 
         <div class="mt-6 flex justify-end">

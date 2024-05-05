@@ -92,7 +92,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position, Request $request)
     {
-        $request->validateWithBag('onValidation', [
+        $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
