@@ -1,3 +1,5 @@
+[![Laravel](https://github.com/r-s-sousa/laravel-sgte/actions/workflows/laravel.yml/badge.svg?branch=main)](https://github.com/r-s-sousa/laravel-sgte/actions/workflows/laravel.yml)
+
 # Funcionalidades necessárias
 
 Essas são as funcionalidades que estão sendo utilizadas atualmente no sistema SGTE Manager
