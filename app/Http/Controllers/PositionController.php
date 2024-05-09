@@ -35,8 +35,8 @@ class PositionController extends Controller
         }
 
         $positions = Position::query()
-            ->where('name', 'ilike', '%' . $search . '%')
-            ->orWhere('shortName', 'ilike', '%' . $search . '%')
+            ->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('shortName', 'LIKE', "%{$search}%")
             ->orderBy('priority', 'desc')
             ->paginate(self::ITEMS_PER_PAGE)
             ->appends(['search' => $search]);
